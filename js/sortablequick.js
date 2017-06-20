@@ -48,8 +48,7 @@ S.create = function(container_element, options) {
 
         var size = item.getBoundingClientRect();
 
-        // before = evt.clientY < ( item.offsetTop + (item.clientHeight / 2));
-        before = evt.clientY < ( size.y + ( size.height / 2));
+        before = evt.clientY < ( size.top + ( size.height / 2));
 
         if (evt.preventDefault) {
             evt.preventDefault(); // Necessary. Allows us to drop.
