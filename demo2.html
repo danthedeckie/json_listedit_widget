@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/orderlist.css" />
+        <link rel="stylesheet" href="css/demo.css" />
+    </head>
+    <body>
+        <h1>Sortable to JSON test.</h1>
+        <input id="X" /><input id="Y" style="width:100%;position: fixed;top:0" />
+        <form action="http://localhost:8000/" method="POST">
+        <textarea name="details" class="orderlist" autocomplete=off data-arrayname="orders">{"title": "things bought",
+            "orders": [
+                {"name": "Chocolate", "quantity": "3kg", "price": 300, "sku": "CHOC"},
+                {"name": "Ice Cream", "quantity": "1 tub", "price": 200, "sku": "ICY"},
+                {"name": "Bowls", "quantity": "7", "price": 700, "sku": "BOWL"},
+                {"name": "Spoons", "quantity": "7", "price": 200, "sku": "SPOON"}
+                ]
+            }
+            </textarea>
+        <button type="button" class="orderlist_button" data-for="details" data-item='{"name":"Sprinkles", "price":10}'>Add Sprinkles</button>
+        <button type="button" class="orderlist_button" data-for="details" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
+        <button type="button" class="orderlist_button" data-for="details" data-item='{"name":"Bananas", "price":1000}'>Add Bananas</button>
+
+            <button type="submit">Submit</button>
+                
+            <textarea name="contact_info" class="orderlist" autocomplete=off>
+                [
+                {"name": "Chocolate", "quantity": "3kg", "price": 300, "sku": "CHOC"},
+                {"name": "Ice Cream", "quantity": "1 tub", "price": 200, "sku": "ICY"},
+                {"name": "Bowls", "quantity": "7", "price": 700, "sku": "BOWL"},
+                {"name": "Spoons", "quantity": "7", "price": 200, "sku": "SPOON"}
+                ]
+            </textarea>
+        <button type="button" class="orderlist_button" data-for="contact_info" data-item='{"name":"Sprinkles", "price":10}'>Add Sprinkles</button>
+        <button type="button" class="orderlist_button" data-for="contact_info" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
+
+            </form>
+        <script src="js/sortablequick.js"></script>
+        <script src="js/orderlist.js"></script>
+        <script>
+            window.JsonListEditor('.orderlist');
+        </script>
+    </body>
+</html>
+</html>

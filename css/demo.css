@@ -1,0 +1,57 @@
+textarea {
+    width: 100%;
+}
+.error {
+    background: #f77;
+    color: #000;
+    font-weight: bold;
+}
+
+.jsonlisteditor {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: 1px solid #444;
+    border-radius: 1px;
+    box-shadow: 0 0 1px #eee inset;
+    margin: auto;
+}
+.jsonlisteditor .item {
+    display: flex;
+    flex-direction: row;
+    padding: 0.4em;
+}
+.jsonlisteditor .item:nth-of-type(odd) {
+    background: #eee;
+}
+.jsonlisteditor .item label {
+    padding: 1em;
+}
+.handle {
+    cursor: move;
+    padding: 0.1em;
+    color: #eee;
+    vertical-align: middle;
+    font-size: 2em;
+    opacity: 0.8;
+    text-shadow: 1px 1px 0 #fff, -1px -1px 0 #ddd;
+}
+
+.section input {
+    width: 100%;
+    font-size: 2em;
+}
+
+[draggable] {
+      -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+.item.moving {
+    transform: translateX(20px);
+    opacity: 0.7;
+}
