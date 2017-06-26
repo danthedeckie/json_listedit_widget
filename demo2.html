@@ -6,10 +6,10 @@
         <link rel="stylesheet" href="css/demo.css" />
     </head>
     <body>
-        <h1>Sortable to JSON test.</h1>
-        <input id="X" /><input id="Y" style="width:100%;position: fixed;top:0" />
+        <h1>JSONListEdit Demo Page.</h1>
+        <p>A Couple of very simple demo widgets, showing what the JSONListEdit should do.</p>
         <form action="http://localhost:8000/" method="POST">
-        <textarea name="details" class="jsonlistedit" autocomplete=off data-arrayname="orders">{"title": "things bought",
+        <textarea id="orderlist" name="orderlist" class="jsonlistedit" autocomplete=off data-arrayname="orders">{"title": "things bought",
             "orders": [
                 {"name": "Chocolate", "quantity": "3kg", "price": 300, "sku": "CHOC"},
                 {"name": "Ice Cream", "quantity": "1 tub", "price": 200, "sku": "ICY"},
@@ -18,7 +18,7 @@
                 ]
             }
             </textarea>
-        <div class="jsonlistedit_buttons" data-for="details">
+        <div class="jsonlistedit_buttons" data-for="orderlist">
         <button type="button" class="additem" data-item='{"name":"Sprinkles", "price":10}'>Add Sprinkles</button>
         <button type="button" class="additem" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
         <button type="button" class="additem" data-item='{"name":"Bananas", "price":1000}'>Add Bananas</button>
@@ -26,21 +26,38 @@
 
             <button type="submit">Submit</button>
                 
-            <textarea name="contact_info" class="jsonlistedit" autocomplete=off>
+            <textarea id="contact_info" name="contact_info" class="jsonlistedit" autocomplete=off>
                 [
-                {"name": "Chocolate", "quantity": "3kg", "price": 300, "sku": "CHOC"},
-                {"name": "Ice Cream", "quantity": "1 tub", "price": 200, "sku": "ICY"},
-                {"name": "Bowls", "quantity": "7", "price": 700, "sku": "BOWL"},
-                {"name": "Spoons", "quantity": "7", "price": 200, "sku": "SPOON"}
+                {"name": "Elephant", "address": "Zoo", "phonenumber": "N/A"}
                 ]
             </textarea>
-        <button type="button" class="jsonlistedit_button" data-for="contact_info" data-item='{"name":"Sprinkles", "price":10}'>Add Sprinkles</button>
-        <button type="button" class="jsonlistedit_button" data-for="contact_info" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
+            <div class="jsonlistedit_buttons" data-for="contact_info">
+        <button type="button" class="additem" data-item='{"name":"Lion", "address":"Creeping up behind you", "phonenumber":911}'>Lion</button>
+        <button type="button" class="additem" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
+            </div>
 
             </form>
         <script src="js/jsonlistedit.js"></script>
         <script>
-            window.JsonListEditor('.jsonlistedit');
+            window.editors = [];
+
+            window.editors.push(new JSONListEdit(document.getElementById('orderlist'), {
+                debug: true,
+                templates: {
+                    "default": '<div class="handle">☰</div><label>Name: $$name</label><label>price <input name="price" value="$price" type="number"/></label>',
+                    "section": '$$name',
+                    "notes": '$$name'
+                }}
+                ));
+
+            window.editors.push(new JSONListEdit(document.getElementById('contact_info'), {
+                debug: true,
+                templates: {
+                    "default": '$$name, $$address, $$phonenumber',
+                    "section": '$$name',
+                    "notes": '$$name'
+                }}
+                ));
         </script>
     </body>
 </html>

@@ -1,0 +1,28 @@
+{
+  "name": "jsonlistedit",
+  "version": "0.1.1",
+  "description": "Turn a Textarea containing JSON with a [] into a sortable editable instantly-updating HTML widget.",
+  "main": "jsonlistedit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danthedeckie/json_listedit_widget.git"
+  },
+  "keywords": [
+    "json",
+    "list",
+    "html",
+    "widget"
+  ],
+  "author": "Daniel Fairhead",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danthedeckie/json_listedit_widget/issues"
+  },
+  "homepage": "https://github.com/danthedeckie/json_listedit_widget#readme",
+  "dependencies": {
+    "jslint": "^0.10.3"
+  }
+}
