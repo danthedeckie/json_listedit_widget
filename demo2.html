@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/jsonlistedit.css" />
         <link rel="stylesheet" href="css/demo.css" />
+        <script src="js/jsonlistedit.js"></script>
     </head>
     <body>
         <h1>JSONListEdit Demo Page.</h1>
@@ -25,39 +26,59 @@
         </div>
 
             <button type="submit">Submit</button>
+
+            <h2> Table Version </h2>
+
+            <div id="scrollbox">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Name</td><td>Address</td><td>Phone Number</td>
+                    </tr>
+                </thead>
+                <tbody id="contact_info_body"></tbody>
+            </table>
+
+            </div>
+            <div class="jsonlistedit_buttons" data-for="contact_info">
+                <button type="button" class="additem" data-item='{"name":"Lion", "address":"Creeping up behind you", "phonenumber":911}'>Lion</button>
+                <button type="button" class="additem" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
+            </div>
+
                 
             <textarea id="contact_info" name="contact_info" class="jsonlistedit" autocomplete=off>
                 [
                 {"name": "Elephant", "address": "Zoo", "phonenumber": "N/A"}
                 ]
             </textarea>
-            <div class="jsonlistedit_buttons" data-for="contact_info">
-        <button type="button" class="additem" data-item='{"name":"Lion", "address":"Creeping up behind you", "phonenumber":911}'>Lion</button>
-        <button type="button" class="additem" data-item='{"name":"Section...", "_type":"section"}'>Add Section</button>
-            </div>
 
             </form>
-        <script src="js/jsonlistedit.js"></script>
         <script>
-            window.editors = [];
+            // A commonly used element in the templates here:
+            var delbutton = '<button type="button" class="deleteitem">&times;</button>',
+                handle = '<td class="handle">☰</td>';
 
-            window.editors.push(new JSONListEdit(document.getElementById('orderlist'), {
+            var basic_listedit = new JSONListEdit(document.getElementById('orderlist'), {
                 debug: true,
                 templates: {
-                    "default": '<div class="handle">☰</div><label>Name: $$name</label><label>price <input name="price" value="$price" type="number"/></label>',
-                    "section": '$$name',
-                    "notes": '$$name'
+                    "default": '<div class="handle">☰</div><label>Name: $$name</label><label>price <input name="price" value="$price" type="number"/></label>' + delbutton,
+                    "section": '$$name' + delbutton,
+                    "notes": '$$name' + delbutton
                 }}
-                ));
+                );
 
-            window.editors.push(new JSONListEdit(document.getElementById('contact_info'), {
+            //  And we're not resticted to just divs. Using the tbody inside a table is pretty sweet too.
+            var table_listedit = new JSONListEdit(document.getElementById('contact_info'), {
                 debug: true,
+                domNode: document.getElementById('contact_info_body'),
+                itemElement: 'tr',
+                onAdd: function() {var s = document.getElementById('scrollbox');s.scrollTop=s.scrollHeight;},
                 templates: {
-                    "default": '$$name, $$address, $$phonenumber',
-                    "section": '$$name',
-                    "notes": '$$name'
+                    "default": handle + '<td><div>$$name</div></td><td>$$address</td><td>$$phonenumber</td><td>'+ delbutton + '</td>',
+                    "section": handle + '<td colspan=3>$$name</td><td>'+ delbutton + '</td>',
+                    "notes": handle + '<td colspan=3"><textarea name="value"></textarea></td><td>'+ delbutton + '</td>',
                 }}
-                ));
+                );
         </script>
     </body>
 </html>

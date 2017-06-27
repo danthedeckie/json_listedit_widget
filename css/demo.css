@@ -7,7 +7,7 @@ textarea {
     font-weight: bold;
 }
 
-.jsonlisteditor {
+div.jsonlisteditor {
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -16,7 +16,24 @@ textarea {
     box-shadow: 0 0 1px #eee inset;
     margin: auto;
 }
-.jsonlisteditor .item {
+table {
+    width: 100%;
+    margin: auto;
+}
+tr.item td {
+    padding: 0.2%;
+}
+tr.item input {
+    width: 97%;
+}
+td.handle {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+div.jsonlisteditor div.item {
     display: flex;
     flex-direction: row;
     padding: 0.4em;
@@ -35,6 +52,16 @@ textarea {
     font-size: 2em;
     opacity: 0.8;
     text-shadow: 1px 1px 0 #fff, -1px -1px 0 #ddd;
+}
+
+#scrollbox {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #888;
+    box-shadow: 0 0 0.1em #777 inset;
+    border-radius: 0.4em;
+    overflow-y: scroll;
+    height: 60vh;
 }
 
 .section input {

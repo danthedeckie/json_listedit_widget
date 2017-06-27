@@ -11,10 +11,37 @@
             "notes": '$$name'
         };
 
+    var default_config = {
+        debug: false,
 
+        templateFunction: quicktemplate,
+
+        listElement: 'div',
+        itemElement: 'div',
+
+    };
 
     /////////////////////////////
     // Helper functions:
+    //
+
+    function makeconfig(specified) {
+        /* basic shallow copy function, copying first default_config, then the specified config) */
+        var config = {},
+            i;
+        for (i in default_config) {
+            if (default_config.hasOwnProperty(i)) {
+                config[i] = default_config[i];
+            }
+        }
+        for (i in specified) {
+            if (specified.hasOwnProperty(i)) {
+                config[i] = specified[i];
+            }
+        }
+        console.log(config);
+        return config;
+    }
 
     function findParentBefore(current, stopat) {
         while (current.parentNode !== stopat) {
@@ -26,12 +53,12 @@
         return current;
     }
 
-    function quicktemplate(obj, templates) {
+    function quicktemplate(obj, listobject) {
         /* Quick Hacky template function, for generating 'rows' in the list.
          * $$<var> is replaced by an inputbox with that name, which pulls in the value from the object.
          * $var pulls in the value from that object.
          * */
-        var str = templates[obj._type || 'default'],
+        var str = listobject.config.templates[obj._type || 'default'],
             k;
 
         for (k in obj) {
@@ -41,7 +68,6 @@
             }
         }
 
-        str += '<button type="button" class="delete_row">x</button>';
         return str;
     }
 
@@ -135,12 +161,15 @@
     var JSONListEdit = function (textarea, config) {
         var that=this;
         this.textarea = textarea;
-        this.config = config || {debug: true};
-        this.el = document.createElement('div');
-        this.templates = this.config.templates || default_templates;
+        this.config = makeconfig(config);
 
-        // Add our element / widget to the DOM:
-        textarea.parentNode.insertBefore(this.el, textarea);
+        if (this.config.domNode) {
+            this.el = this.config.domNode;
+        } else {
+            // Add our element / widget to the DOM:
+            this.el = document.createElement(this.config.listElement);
+            textarea.parentNode.insertBefore(this.el, textarea);
+        }
         this.el.className += ' jsonlisteditor';
 
         this.UpdateConfigFromDataSet();
@@ -183,7 +212,7 @@
     }
 
     JSONListEdit.prototype.AddDOMRow = function (obj, innerHTML) {
-        var div = document.createElement('div'),
+        var div = document.createElement(this.config.itemElement),
             editor = this;
         div.className = 'item ' + (obj._type || 'default');
         div.innerHTML = innerHTML;
@@ -195,7 +224,7 @@
         }
 
         div.onclick = function (evt) {
-            if (evt.target.classList.contains('delete_row')) {
+            if (evt.target.classList.contains('deleteitem')) {
                 editor.delete(obj, div)
             }
         }
@@ -208,7 +237,7 @@
         // Add original elements from array into HTML list:
 
         for (var i=0;i<this.list.length;i++){
-            this.AddDOMRow(this.list[i], quicktemplate(this.list[i], this.templates));
+            this.AddDOMRow(this.list[i], this.config.templateFunction(this.list[i], this));
         }
 
     }
@@ -221,7 +250,8 @@
     JSONListEdit.prototype.addItem = function (data) {
         this.list.push(data);
         this.updateTextArea();
-        this.AddDOMRow(data, quicktemplate(data, this.templates));
+        this.AddDOMRow(data, this.config.templateFunction(data, this));
+        this.config.onAdd && this.config.onAdd(data, this);
     }
 
     JSONListEdit.prototype.delete = function (obj, rowdiv) {
