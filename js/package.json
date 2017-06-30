@@ -1,6 +1,6 @@
 {
   "name": "jsonlistedit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Turn a Textarea containing JSON with a [] into a sortable editable instantly-updating HTML widget.",
   "main": "jsonlistedit.js",
   "scripts": {
